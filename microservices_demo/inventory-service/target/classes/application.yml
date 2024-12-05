@@ -1,0 +1,29 @@
+server:
+  port: 8082  # Schimbă portul specific pentru INVENTORY-SERVICE
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/inventory_service  # Presupunând că ai o bază de date separată
+    username: postgres
+    password: al5gtuv*
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  application:
+    name: inventory-service  # Numele aplicației pentru Eureka și alte scopuri
+  cloud:
+    compatibility-verifier:
+      enabled: false
+
+eureka:
+  instance:
+    hostname: localhost  # Același hostname, presupunând că rulează local
+    nonSecurePort: 8082  # Portul specificat aici trebuie să corespundă cu `server.port`
+    preferIpAddress: false  # Continuă să folosești numele gazdei
+    metadataMap:
+      instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
